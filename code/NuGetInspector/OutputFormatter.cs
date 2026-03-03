@@ -2,11 +2,10 @@ namespace Staticsoft.NuGetInspector;
 
 public static class OutputFormatter
 {
-    public static string FormatTypeList(string packageId, string version, string selectedFramework, IReadOnlyList<TypeInfo> types)
+    public static string FormatTypeList(string packageId, string version, IReadOnlyList<TypeInfo> types)
     {
         var sb = new System.Text.StringBuilder();
         sb.AppendLine($"Package: {packageId} {version}");
-        sb.AppendLine($"Target: {selectedFramework}");
 
         AppendGroup(sb, "CLASSES", types.Where(t => t.Kind == "CLASS").OrderBy(t => t.FullName).Select(t => t.FullName));
         AppendGroup(sb, "INTERFACES", types.Where(t => t.Kind == "INTERFACE").OrderBy(t => t.FullName).Select(t => t.FullName));

@@ -46,7 +46,7 @@ This is a .NET global tool (`nuget-inspector`) that inspects NuGet package APIs 
 **Key type records** (all in `AssemblyReader.cs`):
 - `TypeInfo` — `FullName`, `Name`, `Kind` (CLASS/INTERFACE/ENUM/STRUCT), `Methods`, `Properties`, `EnumValues`
 - `TypeMethodInfo` — includes `IsConstructor` and `IsStatic` flags
-- `PackageTypeInfo` — wraps `SelectedFramework` + `AllTypes` list
+- `PackageTypeInfo` — wraps `AllTypes` list
 
 **`AssemblyReader` filtering:** Excludes `ToString`, `GetHashCode`, `Equals`, `GetType`. Property accessor methods (`get_*`/`set_*`) are excluded from methods. Enum types skip methods/properties entirely and populate `EnumValues` instead.
 
