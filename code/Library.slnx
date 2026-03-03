@@ -1,0 +1,9 @@
+<Solution>
+  <Folder Name="/Build/">
+    <File Path=".editorconfig" />
+    <File Path="Directory.Build.props" />
+  </Folder>
+  <Project Path="NuGetInspector.Tests/NuGetInspector.Tests.csproj" />
+  <Project Path="NuGetInspector/NuGetInspector.csproj" />
+  <Project Path="TestLibrary/TestLibrary.csproj" />
+</Solution>
