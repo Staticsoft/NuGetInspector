@@ -19,7 +19,6 @@ nuget-inspector list-types --package Newtonsoft.Json --version 13.0.3
 Example output:
 ```
 Package: Newtonsoft.Json 13.0.3
-Target: net6.0
 
 CLASSES (42):
   Newtonsoft.Json.JsonConvert

@@ -10,7 +10,7 @@ public class Inspector(string? baseDirectory = null)
         var tfm = FrameworkSelector.GetSelectedFramework(dllPath);
         var depDirs = await downloader.EnsureTransitiveDependenciesAsync(packageId, version, tfm);
         var info = AssemblyReader.ReadTypes(dllPath, depDirs);
-        return OutputFormatter.FormatTypeList(packageId, version, info.SelectedFramework, info.AllTypes);
+        return OutputFormatter.FormatTypeList(packageId, version, info.AllTypes);
     }
 
     public async Task<string> DescribeTypeAsync(string typeName, string packageId, string version)

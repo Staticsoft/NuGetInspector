@@ -53,7 +53,6 @@ public class InspectorTests
 	{
 		var output = await Inspector.ListTypesAsync("TestLibrary", "1.0.0");
 		Assert.Contains("Package: TestLibrary 1.0.0", output);
-		Assert.Contains("Target:", output);
 	}
 
 	[Fact]
