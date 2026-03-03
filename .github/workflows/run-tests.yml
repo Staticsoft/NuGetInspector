@@ -14,4 +14,4 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v2
     - name: Run tests
-      run: dotnet test Library.slnx
+      run: dotnet test code/Library.slnx
