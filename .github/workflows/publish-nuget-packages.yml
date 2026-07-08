@@ -19,7 +19,7 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v2
     - name: Create packages
-      run: dotnet pack code/Packages.slnx -o Packages -c Release --version-suffix ${{ github.run_number }}
+      run: dotnet pack code/Packages.slnx -o Packages -c Release --version-suffix preview.${{ github.run_number }}
     - name: Publish packages to GitHub Packages
       run: dotnet nuget push Packages/*.nupkg --source https://nuget.pkg.github.com/Staticsoft/index.json --api-key ${{ secrets.GITHUB_TOKEN }} --skip-duplicate
     - name: NuGet.org login (OIDC -> short-lived API key)
