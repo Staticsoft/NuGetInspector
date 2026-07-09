@@ -9,7 +9,6 @@
 
     <PropertyGroup>
         <PackageId>Staticsoft.$(MSBuildProjectName)</PackageId>
-        <VersionPrefix>1.0.0</VersionPrefix>
         <RepositoryType>git</RepositoryType>
         <RepositoryUrl>https://github.com/Staticsoft/NuGetInspector</RepositoryUrl>
     </PropertyGroup>
