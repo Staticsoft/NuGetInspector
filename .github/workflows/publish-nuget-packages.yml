@@ -11,15 +11,34 @@ jobs:
       packages: write      # push to GitHub Packages via GITHUB_TOKEN
       id-token: write       # request the OIDC token for NuGet.org Trusted Publishing
     steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0     # full history + tags, required to compute the version below
     - uses: actions/setup-dotnet@v1
       with:
-        dotnet-version: | 
+        dotnet-version: |
           10.0.x
           8.0.x
-    - name: Checkout repository
-      uses: actions/checkout@v2
+    - name: Compute version
+      id: version
+      # MAJOR.MINOR comes from the most recent v* tag (default 1.0); PATCH is the
+      # number of commits since that tag. No version number lives in the source tree
+      # -- bump minor/major by pushing a tag, e.g. `git tag v1.1.0 && git push origin v1.1.0`.
+      run: |
+        LATEST_TAG=$(git describe --tags --abbrev=0 --match 'v[0-9]*' 2>/dev/null || true)
+        if [ -n "$LATEST_TAG" ]; then
+          MAJOR_MINOR=$(echo "${LATEST_TAG#v}" | cut -d. -f1-2)
+          PATCH=$(git rev-list --count "$LATEST_TAG"..HEAD)
+        else
+          MAJOR_MINOR="1.0"
+          PATCH=$(git rev-list --count HEAD)
+        fi
+        VERSION="$MAJOR_MINOR.$PATCH"
+        echo "Computed version: $VERSION"
+        echo "version=$VERSION" >> "$GITHUB_OUTPUT"
     - name: Create packages
-      run: dotnet pack code/Packages.slnx -o Packages -c Release --version-suffix ${{ github.run_number }}
+      run: dotnet pack code/Packages.slnx -o Packages -c Release -p:Version=${{ steps.version.outputs.version }}
     - name: Publish packages to GitHub Packages
       run: dotnet nuget push Packages/*.nupkg --source https://nuget.pkg.github.com/Staticsoft/index.json --api-key ${{ secrets.GITHUB_TOKEN }} --skip-duplicate
     - name: NuGet.org login (OIDC -> short-lived API key)
