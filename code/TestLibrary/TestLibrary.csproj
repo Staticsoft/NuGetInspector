@@ -2,6 +2,7 @@
 
     <PropertyGroup>
         <PackageId>TestLibrary</PackageId>
+        <VersionPrefix>1.0.1</VersionPrefix>
     </PropertyGroup>
 
 </Project>

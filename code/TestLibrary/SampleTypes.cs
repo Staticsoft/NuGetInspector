@@ -8,6 +8,8 @@ public class SampleClass
     public SampleClass(string name) { Name = name; }
     public string GetName() => Name;
     public static string Create(string name) => new SampleClass(name).GetName();
+    public T Parse<T>(string value) => default!;
+    public static TResult Convert<TSource, TResult>(TSource source) => default!;
 }
 
 public interface ISampleInterface

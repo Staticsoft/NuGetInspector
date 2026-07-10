@@ -88,7 +88,10 @@ public static class OutputFormatter
         var parameters = string.Join(", ", m.Parameters.Select(p => $"{p.TypeName} {p.Name}"));
         if (m.IsConstructor)
             return $"{m.Name}({parameters})";
-        return $"{m.ReturnTypeName} {m.Name}({parameters})";
+        var genericParameters = m.GenericParameters.Count > 0
+            ? $"<{string.Join(", ", m.GenericParameters)}>"
+            : "";
+        return $"{m.ReturnTypeName} {m.Name}{genericParameters}({parameters})";
     }
 
     static string FormatProperty(TypePropertyInfo p)

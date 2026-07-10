@@ -6,7 +6,7 @@ using System.Reflection.Metadata;
 namespace Staticsoft.NuGetInspector;
 
 public record TypeParameterInfo(string TypeName, string Name);
-public record TypeMethodInfo(string Name, string ReturnTypeName, IReadOnlyList<TypeParameterInfo> Parameters, bool IsStatic, bool IsConstructor);
+public record TypeMethodInfo(string Name, string ReturnTypeName, IReadOnlyList<TypeParameterInfo> Parameters, bool IsStatic, bool IsConstructor, IReadOnlyList<string> GenericParameters);
 public record TypePropertyInfo(string Name, string TypeName, bool CanRead, bool CanWrite, bool IsStatic);
 public record TypeInfo(string FullName, string Name, string Kind, IReadOnlyList<TypeMethodInfo> Methods, IReadOnlyList<TypePropertyInfo> Properties, IReadOnlyList<string> EnumValues);
 public record PackageTypeInfo(string SelectedFramework, IReadOnlyList<TypeInfo> AllTypes);
@@ -91,7 +91,8 @@ public static class AssemblyReader
                     "void",
                     ctor.GetParameters().Select(p => new TypeParameterInfo(FormatTypeName(p.ParameterType), p.Name ?? "")).ToList(),
                     false,
-                    true));
+                    true,
+                    []));
             }
 
             foreach (var method in type.GetMethods(BindingFlags.Public | BindingFlags.Instance | BindingFlags.Static | BindingFlags.DeclaredOnly))
@@ -105,7 +106,10 @@ public static class AssemblyReader
                     FormatTypeName(method.ReturnType),
                     method.GetParameters().Select(p => new TypeParameterInfo(FormatTypeName(p.ParameterType), p.Name ?? "")).ToList(),
                     method.IsStatic,
-                    false));
+                    false,
+                    method.IsGenericMethodDefinition
+                        ? method.GetGenericArguments().Select(a => a.Name).ToList()
+                        : []));
             }
         }
 

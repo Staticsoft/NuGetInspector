@@ -45,7 +45,7 @@ This is a .NET global tool (`nuget-inspector`) that inspects NuGet package APIs 
 
 **Key type records** (all in `AssemblyReader.cs`):
 - `TypeInfo` — `FullName`, `Name`, `Kind` (CLASS/INTERFACE/ENUM/STRUCT), `Methods`, `Properties`, `EnumValues`
-- `TypeMethodInfo` — includes `IsConstructor` and `IsStatic` flags
+- `TypeMethodInfo` — includes `IsConstructor` and `IsStatic` flags, plus `GenericParameters` (type parameter names of a generic method definition, empty otherwise)
 - `PackageTypeInfo` — wraps `AllTypes` list
 
 **`AssemblyReader` filtering:** Excludes `ToString`, `GetHashCode`, `Equals`, `GetType`. Property accessor methods (`get_*`/`set_*`) are excluded from methods. Enum types skip methods/properties entirely and populate `EnumValues` instead.
@@ -54,6 +54,6 @@ This is a .NET global tool (`nuget-inspector`) that inspects NuGet package APIs 
 
 Tests in `NuGetInspector.Tests/` depend on `TestLibrary` being packed to `LocalFeed/` before they run. This is automatic: the test `.csproj` has a `BeforeTargets="Build"` MSBuild target that packs `TestLibrary` into `LocalFeed/` on every build.
 
-`NuGet.config` at the solution root registers `./LocalFeed` as the `local` package source, so `NuGetDownloader` can find `TestLibrary 1.0.0` during tests. Tests instantiate `Inspector` directly via `new Inspector(solutionRoot)` — the solution root is found by walking up from `AppContext.BaseDirectory` until a `*.sln*` file is found.
+`NuGet.config` at the solution root registers `./LocalFeed` as the `local` package source, so `NuGetDownloader` can find `TestLibrary 1.0.1` during tests. Tests instantiate `Inspector` directly via `new Inspector(solutionRoot)` — the solution root is found by walking up from `AppContext.BaseDirectory` until a `*.sln*` file is found.
 
 When adding types to `TestLibrary/SampleTypes.cs`, bump `VersionPrefix` in `TestLibrary/TestLibrary.csproj` and update test assertions accordingly.
