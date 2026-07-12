@@ -19,7 +19,7 @@ jobs:
       with:
         dotnet-version: |
           10.0.x
-          8.0.x
+          10.0.x
     - name: Compute version
       id: version
       # MAJOR.MINOR comes from the most recent v* tag (default 1.0); PATCH is the
